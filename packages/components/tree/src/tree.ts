@@ -6,6 +6,7 @@ type key = string | number
 export interface TreeNode extends Required<TreeOption> {
   level: number
   rewNode: TreeOption
+  children: TreeNode[]
 }
 
 export interface TreeOption {

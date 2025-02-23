@@ -34,7 +34,12 @@ console.log(data)
   <z-icon :color="'red'" :size="20">
     <AddCircle></AddCircle>
   </z-icon>
-  <z-tree></z-tree>
+  <z-tree
+    :data="data"
+    label-field="xx"
+    keyField="key"
+    children-field="children"
+  ></z-tree>
 </template>
 
 <style scoped></style>
