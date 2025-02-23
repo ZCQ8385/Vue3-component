@@ -1,7 +1,7 @@
 <template>tree</template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { TreeProps, TreeNode, TreeOption } from './tree'
 
 defineOptions({
@@ -67,4 +67,40 @@ watch(
   },
   { immediate: true }
 )
+
+//希望将一棵树拍平，点击还能实现展开操作
+const expandedKeysSet = ref(new Set(props.defaultExpandedKeys))
+
+const flattenTree = computed(() => {
+  //要展开的keys有哪些
+  const expandedKeys = expandedKeysSet.value
+
+  //最终拍平的节点
+  //拍平后的结果
+  const flattenTree: TreeNode[] = []
+  //被格式化后的节点
+  const nodes = tree.value || []
+  //将节点放入栈中stack
+  const stack: TreeNode[] = []
+
+  for (let i = nodes.length - 1; i >= 0; i--) {
+    stack.push(nodes[i])
+  }
+
+  //深度遍历
+  while (stack.length) {
+    const node = stack.pop()
+    if (!node) continue
+    flattenTree.push(node)
+    if (expandedKeys.has(node.key)) {
+      const children = node.children
+      if (children) {
+        for (let i = node.children.length - 1; i >= 0; i--) {
+          stack.push(node.children[i])
+        }
+      }
+    }
+  }
+  return flattenTree
+})
 </script>

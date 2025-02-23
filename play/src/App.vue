@@ -39,6 +39,7 @@ console.log(data)
     label-field="xx"
     keyField="key"
     children-field="children"
+    :default-expanded-keys="['40', '41']"
   ></z-tree>
 </template>
 

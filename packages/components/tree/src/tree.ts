@@ -21,6 +21,10 @@ export const TreeProps = {
     type: Array as PropType<TreeOption[]>,
     default: () => []
   },
+  defaultExpandedKeys: {
+    type: Array as PropType<key[]>,
+    default: () => []
+  },
   labelField: {
     type: String,
     default: 'label'
