@@ -1,8 +1,21 @@
-<template>tree</template>
+<template>
+  <div :class="bem.b()">
+    <z-tree-node
+      v-for="node in flattenTree"
+      :key="node.key"
+      :node="node"
+      :expanded="isExpanded(node)"
+    ></z-tree-node>
+  </div>
+</template>
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { TreeProps, TreeNode, TreeOption } from './tree'
+import { createNamespace } from '@zi-shui/utils/create'
+import ZTreeNode from './treeNode.vue'
+// import TreeNode from './treeNode.vue'
+const bem = createNamespace('tree')
 
 defineOptions({
   name: 'z-tree'
@@ -55,6 +68,7 @@ function createTree(data: TreeOption[]) {
       return treeNode
     })
   }
+
   const result: TreeNode[] = traversal(data)
   return result
 }
@@ -77,7 +91,7 @@ const flattenTree = computed(() => {
 
   //最终拍平的节点
   //拍平后的结果
-  const flattenTree: TreeNode[] = []
+  const flattenNodes: TreeNode[] = []
   //被格式化后的节点
   const nodes = tree.value || []
   //将节点放入栈中stack
@@ -91,7 +105,7 @@ const flattenTree = computed(() => {
   while (stack.length) {
     const node = stack.pop()
     if (!node) continue
-    flattenTree.push(node)
+    flattenNodes.push(node)
     if (expandedKeys.has(node.key)) {
       const children = node.children
       if (children) {
@@ -101,6 +115,11 @@ const flattenTree = computed(() => {
       }
     }
   }
-  return flattenTree
+  return flattenNodes
 })
+console.log(flattenTree.value)
+
+function isExpanded(node: TreeNode): boolean {
+  return expandedKeysSet.value.has(node.key)
+}
 </script>

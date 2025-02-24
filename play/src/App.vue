@@ -36,7 +36,7 @@ console.log(data)
   </z-icon>
   <z-tree
     :data="data"
-    label-field="xx"
+    label-field="label"
     keyField="key"
     children-field="children"
     :default-expanded-keys="['40', '41']"

@@ -1,6 +1,12 @@
 @use 'config' as *; //导入config文件
 @forward 'config'; //导出config文件
 
+// 定义缺失的变量
+$namespace: 'z';
+$state-prefix: 'is-';
+$modifier-separator: '--';
+$element-separator: '__';
+
 // .z-button
 @mixin b($block) {
   $B: $namespace + '-' + $block;
@@ -18,19 +24,19 @@
   }
 }
 
-//&--primary => .z-buttom--primary{}
+//&--primary => .z-button--primary{}
 @mixin m($modifier) {
   @at-root {
-    &.#{$B + $modifier-separator + $modifier} {
+    #{& + $modifier-separator + $modifier} {
       @content;
     }
   }
 }
 
-//&__headr => .z-button__header{}
+//&__header => .z-button__header{}
 @mixin e($element) {
   @at-root {
-    &.#{$B + $element-separator + $element} {
+    #{& + $element-separator + $element} {
       @content;
     }
   }

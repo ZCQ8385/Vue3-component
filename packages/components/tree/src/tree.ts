@@ -39,5 +39,16 @@ export const TreeProps = {
   }
 } as const
 
+export const treeNodeProps = {
+  node: {
+    type: Object as PropType<TreeNode>,
+    required: true
+  },
+  expanded: {
+    type: Boolean,
+    required: true
+  }
+}
+
 // 使用 ExtractPropTypes 提取 iconProps 的类型
 export type IconProps = Partial<ExtractPropTypes<typeof TreeProps>>
