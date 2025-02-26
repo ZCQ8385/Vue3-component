@@ -22,5 +22,9 @@
     &.expanded {
       transform: rotate(90deg);
     }
+    &.is-Leaf {
+      fill: transparent;
+      cursor: default;
+    }
   }
 }

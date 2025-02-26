@@ -5,7 +5,12 @@
       :style="{ paddingLeft: `${node.level * 16}px` }"
     >
       <span
-        :class="[bem.e('expand-icon'), { expanded: expanded && !node.isLeaf }]"
+        :class="[
+          bem.e('expand-icon'),
+          bem.is('Leaf', node?.isLeaf),
+          { expanded: expanded && !node?.isLeaf }
+        ]"
+        @click="handleExpand()"
       >
         <z-icon size="25" color="pink">
           <Switcher></Switcher>
@@ -19,10 +24,18 @@
 
 <script setup lang="ts">
 import { createNamespace } from '@zi-shui/utils/create'
-import { treeNodeProps } from './tree'
+import { treeNodeProps, treeNodeEmitts } from './tree'
 import Switcher from './icon/Switcher'
 import ZIcon from '@zi-shui/components/icon'
 
 const bem = createNamespace('tree-node')
-defineProps(treeNodeProps)
+const props = defineProps(treeNodeProps)
+const { node } = props
+const emit = defineEmits(treeNodeEmitts)
+
+function handleExpand() {
+  if (props.node) {
+    emit('toggle', props.node)
+  }
+}
 </script>

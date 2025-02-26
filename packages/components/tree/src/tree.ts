@@ -1,7 +1,7 @@
 //准备组件相关属性 和 ts 类型
 import { ExtractPropTypes, PropType } from 'vue'
 
-type key = string | number
+export type key = string | number
 
 export interface TreeNode extends Required<TreeOption> {
   level: number
@@ -36,7 +36,8 @@ export const TreeProps = {
   childrenField: {
     type: String,
     default: 'children'
-  }
+  },
+  onLoad: Function as PropType<(node: TreeOption) => Promise<TreeOption[]>>
 } as const
 
 export const treeNodeProps = {
@@ -50,5 +51,8 @@ export const treeNodeProps = {
   }
 }
 
+export const treeNodeEmitts = {
+  toggle: (node: TreeNode) => node
+}
 // 使用 ExtractPropTypes 提取 iconProps 的类型
 export type IconProps = Partial<ExtractPropTypes<typeof TreeProps>>

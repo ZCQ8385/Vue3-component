@@ -5,6 +5,7 @@
       :key="node.key"
       :node="node"
       :expanded="isExpanded(node)"
+      @toggle="toggleExpand(node)"
     ></z-tree-node>
   </div>
 </template>
@@ -47,8 +48,8 @@ const treeOptions = createOptions(
   props.labelField as string,
   props.childrenField as string
 )
-
-function createTree(data: TreeOption[]) {
+//将数据格式化成树形结构
+function createTree(data: TreeOption[], parent: TreeNode | null = null) {
   function traversal(data: TreeOption[], parent: TreeNode | null = null) {
     return data.map(node => {
       const children = treeOptions.getChildren(node) || []
@@ -61,7 +62,7 @@ function createTree(data: TreeOption[]) {
         //判断节点是否自带isLeaf属性，如果没有孩子节点则为叶子节点
         isLeaf: node.isLeaf ?? children.length === 0
       }
-      if (children.length) {
+      if (children.length > 0) {
         //有孩子递归， 将其格式化成treeNode类型
         treeNode.children = traversal(children, treeNode)
       }
@@ -69,7 +70,7 @@ function createTree(data: TreeOption[]) {
     })
   }
 
-  const result: TreeNode[] = traversal(data)
+  const result: TreeNode[] = traversal(data, parent)
   return result
 }
 
@@ -94,7 +95,7 @@ const flattenTree = computed(() => {
   const flattenNodes: TreeNode[] = []
   //被格式化后的节点
   const nodes = tree.value || []
-  //将节点放入栈中stack
+  //将节点放入栈中stack，用于遍历树的栈
   const stack: TreeNode[] = []
 
   for (let i = nodes.length - 1; i >= 0; i--) {
@@ -117,9 +118,54 @@ const flattenTree = computed(() => {
   }
   return flattenNodes
 })
-console.log(flattenTree.value)
+// console.log(flattenTree.value)
 
 function isExpanded(node: TreeNode): boolean {
   return expandedKeysSet.value.has(node.key)
+}
+
+//折叠功能
+function collpase(node: TreeNode) {
+  expandedKeysSet.value.delete(node.key)
+}
+
+type Key = string | number
+const loadingKeysRef = ref(new Set<Key>())
+
+function triggerLoading(node: TreeNode) {
+  if (!node.children.length && !node.isLeaf) {
+    //没有加载过，就加载节点
+    const loadingKeys = loadingKeysRef.value
+    if (!loadingKeys.has(node.key)) {
+      loadingKeys.add(node.key)
+      const onLoad = props.onLoad
+      if (onLoad) {
+        // console.log(node.rawNode)
+        onLoad(node.rewNode).then(children => {
+          //修改原来的节点
+          node.rewNode.children = children
+          //更新自定义的node
+          node.children = createTree(children, node)
+          // console.log(node.children)
+          loadingKeys.delete(node.key)
+        })
+      }
+    }
+  }
+}
+
+//展开功能
+function expand(node: TreeNode) {
+  expandedKeysSet.value.add(node.key)
+  triggerLoading(node)
+}
+//切换展开和折叠
+function toggleExpand(node: TreeNode) {
+  const expandKeys = expandedKeysSet.value
+  if (expandKeys.has(node.key) && !loadingKeysRef.value.has(node.key)) {
+    collpase(node)
+  } else {
+    expand(node)
+  }
 }
 </script>
