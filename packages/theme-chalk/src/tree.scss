@@ -27,4 +27,16 @@
       cursor: default;
     }
   }
+
+  @include when(selected) {
+    background: rgb(195, 195, 234);
+  }
+  @include e('content') {
+    display: flex;
+  }
+  @include e('label') {
+    cursor: pointer;
+    display: flex;
+    flex: 1;
+  }
 }

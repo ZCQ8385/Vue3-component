@@ -1,44 +1,45 @@
 <script setup lang="ts">
 import { AddCircle } from '@vicons/ionicons5'
 import { ref } from 'vue'
+// import type { Key } from '@zi-shui/components/tree'
 import type { TreeOption } from '@zi-shui/components/tree'
+type Key = string | number
+function createData(level = 4, parentKey = ''): any {
+  if (!level) return []
+  const arr = new Array(6 - level).fill(0)
+  return arr.map((_, idx: number) => {
+    const key = parentKey + level + idx
+    return {
+      label: createLabel(level),
+      key,
+      children: createData(level - 1, key)
+    }
+  })
+}
 
-// function createData(level = 4, parentKey = ''): any {
-//   if (!level) return []
-//   const arr = new Array(6 - level).fill(0)
-//   return arr.map((_, idx: number) => {
-//     const key = parentKey + level + idx
-//     return {
-//       label: createLabel(level),
-//       key,
-//       children: createData(level - 1, key)
-//     }
-//   })
-// }
-
-// function createLabel(level: number): string {
-//   if (level === 4) return '遵生一'
-//   if (level === 3) return '一生二'
-//   if (level === 2) return '二生三'
-//   if (level === 1) return '三生万物'
-//   return ''
-// }
+function createLabel(level: number): string {
+  if (level === 4) return '遵生一'
+  if (level === 3) return '一生二'
+  if (level === 2) return '二生三'
+  if (level === 1) return '三生万物'
+  return ''
+}
 
 // 创建数据的函数
-function createData() {
-  return [
-    {
-      label: nextLabel(),
-      key: 1,
-      isLeaf: false //表示点击的时候动态加载子节点
-    },
-    {
-      label: nextLabel(),
-      key: 2,
-      isLeaf: false
-    }
-  ]
-}
+// function createData() {
+//   return [
+//     {
+//       label: nextLabel(),
+//       key: 1,
+//       isLeaf: false //表示点击的时候动态加载子节点
+//     },
+//     {
+//       label: nextLabel(),
+//       key: 2,
+//       isLeaf: false
+//     }
+//   ]
+// }
 
 // 生成下一个标签的函数
 function nextLabel(currentLabel?: string | undefined | number): string {
@@ -53,7 +54,7 @@ function nextLabel(currentLabel?: string | undefined | number): string {
 }
 
 const data = ref(createData())
-console.log(data)
+// console.log(data)
 
 const handleLoad = (node: TreeOption) => {
   //内部需要将展开的节点传递给我
@@ -70,6 +71,7 @@ const handleLoad = (node: TreeOption) => {
     }, 1000)
   })
 }
+const value = ref<Key[]>(['40', '41'])
 </script>
 
 <template>
@@ -79,10 +81,14 @@ const handleLoad = (node: TreeOption) => {
   <z-icon :color="'red'" :size="20">
     <AddCircle></AddCircle>
   </z-icon>
-  <z-tree :data="data" :on-load="handleLoad"></z-tree>
-  <!-- label-field="label"
-    key-field="key"
-    children-field="children" -->
+  <z-tree
+    :data="data"
+    :on-load="handleLoad"
+    v-model:selected-keys="value"
+    selectable
+    multiple
+  ></z-tree>
+  <!-- selectable意味着可以选择节点 multiple意味着可以多选 selected-keys是选中的节点 -->
 </template>
 
 <style scoped></style>

@@ -37,7 +37,18 @@ export const TreeProps = {
     type: String,
     default: 'children'
   },
-  onLoad: Function as PropType<(node: TreeOption) => Promise<TreeOption[]>>
+  onLoad: Function as PropType<(node: TreeOption) => Promise<TreeOption[]>>,
+  selectedKeys: {
+    type: Array as PropType<key[]>
+  },
+  selectable: {
+    type: Boolean,
+    default: true
+  },
+  multiple: {
+    type: Boolean,
+    default: false
+  }
 } as const
 
 export const treeNodeProps = {
@@ -48,11 +59,22 @@ export const treeNodeProps = {
   expanded: {
     type: Boolean,
     required: true
+  },
+  selectedKeys: {
+    type: Array as PropType<key[]>,
+    default: () => []
   }
 }
 
 export const treeNodeEmitts = {
-  toggle: (node: TreeNode) => node
+  toggle: (node: TreeNode) => node,
+  select: (node: TreeNode) => node
 }
+
+export const treeEmitts = {
+  //内部发射的事件用来同步响应数据
+  'update:selectedKeys': (keys: key[]) => keys
+}
+
 // 使用 ExtractPropTypes 提取 iconProps 的类型
 export type IconProps = Partial<ExtractPropTypes<typeof TreeProps>>
