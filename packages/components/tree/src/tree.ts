@@ -1,5 +1,5 @@
 //准备组件相关属性 和 ts 类型
-import { ExtractPropTypes, PropType } from 'vue'
+import { ExtractPropTypes, PropType, SetupContext, InjectionKey } from 'vue'
 
 export type key = string | number
 
@@ -14,6 +14,7 @@ export interface TreeOption {
   key?: key
   children?: TreeOption[]
   [key: string]: any
+  disabled?: boolean
 }
 
 export const TreeProps = {
@@ -21,6 +22,7 @@ export const TreeProps = {
     type: Array as PropType<TreeOption[]>,
     default: () => []
   },
+  // 默认展开的节点
   defaultExpandedKeys: {
     type: Array as PropType<key[]>,
     default: () => []
@@ -78,3 +80,16 @@ export const treeEmitts = {
 
 // 使用 ExtractPropTypes 提取 iconProps 的类型
 export type IconProps = Partial<ExtractPropTypes<typeof TreeProps>>
+
+export interface TreeContext {
+  slots: SetupContext['slots']
+  // emit: SetupContext['emit']
+}
+//此变量作为提供出去的属性
+export const treeTnjectKey: InjectionKey<TreeContext> = Symbol('tree')
+export const treeNodeContentProps = {
+  node: {
+    type: Object as PropType<TreeNode>,
+    required: true
+  }
+}

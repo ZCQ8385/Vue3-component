@@ -3,7 +3,9 @@ import { AddCircle } from '@vicons/ionicons5'
 import { ref } from 'vue'
 // import type { Key } from '@zi-shui/components/tree'
 import type { TreeOption } from '@zi-shui/components/tree'
+
 type Key = string | number
+
 function createData(level = 4, parentKey = ''): any {
   if (!level) return []
   const arr = new Array(6 - level).fill(0)
@@ -53,8 +55,36 @@ function nextLabel(currentLabel?: string | undefined | number): string {
   return ''
 }
 
+// const data = ref<TreeOption[]>([
+//   {
+//     key: '0',
+//     label: '0',
+//     children: [
+//       {
+//         key: '0-0',
+//         label: '0-0',
+//         disabled: true,
+//         children: [
+//           {
+//             key: '0-1-0',
+//             label: '0-1-0'
+//           },
+//           {
+//             key: '0-1-1',
+//             label: '0-1-1'
+//           }
+//         ]
+//       },
+//       {
+//         key: '0-1',
+//         label: '0-1',
+//         children: []
+//       }
+//     ]
+//   }
+// ])
+
 const data = ref(createData())
-// console.log(data)
 
 const handleLoad = (node: TreeOption) => {
   //内部需要将展开的节点传递给我
@@ -71,7 +101,7 @@ const handleLoad = (node: TreeOption) => {
     }, 1000)
   })
 }
-const value = ref<Key[]>(['40', '41'])
+const value = ref<Key[]>()
 </script>
 
 <template>
@@ -87,7 +117,9 @@ const value = ref<Key[]>(['40', '41'])
     v-model:selected-keys="value"
     selectable
     multiple
-  ></z-tree>
+  >
+    <template #default="{ node }">{{ node.key }} - {{ node.label }}</template>
+  </z-tree>
   <!-- selectable意味着可以选择节点 multiple意味着可以多选 selected-keys是选中的节点 -->
 </template>
 

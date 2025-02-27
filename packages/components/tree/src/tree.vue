@@ -13,8 +13,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
-import { TreeProps, TreeNode, TreeOption, treeEmitts } from './tree'
+import { ref, watch, computed, useSlots, provide } from 'vue'
+import {
+  TreeProps,
+  TreeNode,
+  TreeOption,
+  treeEmitts,
+  treeTnjectKey
+} from './tree'
 import { createNamespace } from '@zi-shui/utils/create'
 import ZTreeNode from './treeNode.vue'
 // import TreeNode from './treeNode.vue'
@@ -61,6 +67,7 @@ function createTree(data: TreeOption[], parent: TreeNode | null = null) {
         children: [],
         rewNode: node,
         level: parent ? parent.level + 1 : 0,
+        disabled: !!node.disabled, //判断节点是否禁用
         //判断节点是否自带isLeaf属性，如果没有孩子节点则为叶子节点
         isLeaf: node.isLeaf ?? children.length === 0
       }
@@ -209,4 +216,8 @@ function handleSelect(node: TreeNode) {
   }
   emit('update:selectedKeys', keys)
 }
+
+provide(treeTnjectKey, {
+  slots: useSlots()
+})
 </script>
