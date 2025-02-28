@@ -1,14 +1,17 @@
 <template>
   <div :class="bem.b()">
-    <z-tree-node
-      v-for="node in flattenTree"
-      :key="node.key"
-      :node="node"
-      :expanded="isExpanded(node)"
-      @toggle="toggleExpand(node)"
-      :selectedKeys="selectedKeys"
-      @select="handleSelect(node)"
-    ></z-tree-node>
+    <z-virtual-list :items="flattenTree" :remain="8" :size="35">
+      <template #default="{ node }">
+        <z-tree-node
+          :key="node.key"
+          :node="node"
+          :expanded="isExpanded(node)"
+          @toggle="toggleExpand(node)"
+          :selectedKeys="selectedKeys"
+          @select="handleSelect(node)"
+        ></z-tree-node>
+      </template>
+    </z-virtual-list>
   </div>
 </template>
 
@@ -23,6 +26,7 @@ import {
 } from './tree'
 import { createNamespace } from '@zi-shui/utils/create'
 import ZTreeNode from './treeNode.vue'
+import ZVirtualList from '@zi-shui/components/virtual-list'
 // import TreeNode from './treeNode.vue'
 const bem = createNamespace('tree')
 
