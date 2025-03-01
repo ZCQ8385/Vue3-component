@@ -102,6 +102,11 @@ const handleLoad = (node: TreeOption) => {
   })
 }
 const value = ref<Key[]>()
+const check = ref(true)
+
+const handleChange = (val: boolean) => {
+  console.log(val)
+}
 </script>
 
 <template>
@@ -111,6 +116,7 @@ const value = ref<Key[]>()
   <z-icon :color="'red'" :size="20">
     <AddCircle></AddCircle>
   </z-icon>
+
   <z-tree
     :data="data"
     :on-load="handleLoad"
@@ -121,6 +127,14 @@ const value = ref<Key[]>()
     <template #default="{ node }">{{ node.key }} - {{ node.label }}</template>
   </z-tree>
   <!-- selectable意味着可以选择节点 multiple意味着可以多选 selected-keys是选中的节点 -->
+  {{ check }}
+  <z-checkbox
+    v-model="check"
+    :disabled="false"
+    :indeterminate="true"
+    label="节点"
+    @change="handleChange"
+  ></z-checkbox>
 </template>
 
 <style scoped></style>

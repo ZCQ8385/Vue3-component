@@ -3,8 +3,9 @@ import App from './App.vue'
 import Icon from '@zi-shui/components/icon'
 import Tree from '@zi-shui/components/tree'
 import '@zi-shui/theme-chalk/src/index.scss'
+import Checkbox from '@zi-shui/components/checkbox'
 
-const plugins = [Icon, Tree]
+const plugins = [Icon, Tree, Checkbox]
 
 const app = createApp(App)
 // 注册插件
