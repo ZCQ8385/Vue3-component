@@ -9,6 +9,11 @@
           @toggle="toggleExpand(node)"
           :selectedKeys="selectedKeys"
           @select="handleSelect(node)"
+          :show-checkbox="showCheckbox"
+          :checked="isChecked(node)"
+          :disabled="isDisabled(node)"
+          :indeterminate="isIndeterminate(node)"
+          @check="toggleCheck"
         ></z-tree-node>
       </template>
     </z-virtual-list>
@@ -16,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed, useSlots, provide } from 'vue'
+import { ref, watch, computed, useSlots, provide, onMounted } from 'vue'
 import {
   TreeProps,
   TreeNode,
@@ -73,7 +78,8 @@ function createTree(data: TreeOption[], parent: TreeNode | null = null) {
         level: parent ? parent.level + 1 : 0,
         disabled: !!node.disabled, //判断节点是否禁用
         //判断节点是否自带isLeaf属性，如果没有孩子节点则为叶子节点
-        isLeaf: node.isLeaf ?? children.length === 0
+        isLeaf: node.isLeaf ?? children.length === 0,
+        parentKey: parent?.key
       }
       if (children.length > 0) {
         //有孩子递归， 将其格式化成treeNode类型
@@ -223,5 +229,88 @@ function handleSelect(node: TreeNode) {
 
 provide(treeTnjectKey, {
   slots: useSlots()
+})
+
+const checkedKeysRefs = ref(new Set(props.defaultCheckedKeys))
+
+function isChecked(node: TreeNode) {
+  return checkedKeysRefs.value.has(node.key)
+}
+
+function isDisabled(node: TreeNode) {
+  return !!node.disabled
+}
+
+const inderterminateRef = ref(new Set(props.defaultCheckedKeys))
+
+function isIndeterminate(node: TreeNode) {
+  return inderterminateRef.value.has(node.key)
+}
+
+//切换选中状态
+function toggle(node: TreeNode, checked: boolean) {
+  const checkedKeys = checkedKeysRefs.value
+
+  if (checked) {
+    inderterminateRef.value.delete(node.key)
+  }
+
+  //如果是禁用的节点，直接返回
+  checkedKeys[checked ? 'add' : 'delete'](node.key)
+  const children = node.children
+  if (children) {
+    children.forEach(childNode => {
+      if (!childNode.disabled) {
+        toggleCheck(childNode, checked)
+      }
+    })
+  }
+}
+
+function findNode(key: Key) {
+  return flattenTree.value.find(node => node.key === key)
+}
+
+function updateCheckedKeys(node: TreeNode) {
+  if (node.parentKey) {
+    const parentNode = findNode(node.parentKey)
+
+    if (parentNode) {
+      let allChecked = true //默认儿子全选
+      let hasChecked = false //儿子有没有被选中
+
+      let nodes = parentNode.children
+      for (const node of nodes) {
+        if (checkedKeysRefs.value.has(node.key)) {
+          hasChecked = true //儿子有被选中
+        } else if (inderterminateRef.value.has(node.key)) {
+          allChecked = false
+          hasChecked = true
+        } else {
+          allChecked = false
+        }
+      }
+      if (allChecked) {
+        checkedKeysRefs.value.add(parentNode.key)
+        inderterminateRef.value.delete(parentNode.key)
+      } else if (hasChecked) {
+        checkedKeysRefs.value.delete(parentNode.key)
+        inderterminateRef.value.add(parentNode.key)
+      }
+      updateCheckedKeys(parentNode)
+    }
+  }
+}
+
+function toggleCheck(node: TreeNode, checked: boolean) {
+  toggle(node, checked)
+
+  updateCheckedKeys(node)
+}
+
+onMounted(() => {
+  checkedKeysRefs.value.forEach(key => {
+    toggleCheck(flattenTree.value[key as any], true)
+  })
 })
 </script>

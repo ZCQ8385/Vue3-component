@@ -22,7 +22,13 @@
           <Switcher></Switcher>
         </z-icon>
       </span>
-
+      <z-checkbox
+        v-if="showCheckbox"
+        :model-value="checked"
+        :disabled="disabled"
+        :indeterminate="indeterminate"
+        @change="handleCheckChange"
+      ></z-checkbox>
       <span @click="handleSelected()" :class="bem.e('label')">
         <z-tree-node-content :node="node"></z-tree-node-content>
         {{ node?.label }}
@@ -38,6 +44,7 @@ import Switcher from './icon/Switcher'
 import ZIcon from '@zi-shui/components/icon'
 import ZTreeNodeContent from './icon/tree-node-content'
 import { computed } from 'vue'
+import ZCheckbox from '@zi-shui/components/checkbox'
 
 const bem = createNamespace('tree-node')
 const props = defineProps(treeNodeProps)
@@ -60,6 +67,12 @@ function handleSelected() {
   if (props.node) {
     if (props.node.disabled) return
     emit('select', props.node)
+  }
+}
+
+function handleCheckChange(checked: boolean) {
+  if (props.node) {
+    emit('check', props.node, checked)
   }
 }
 </script>

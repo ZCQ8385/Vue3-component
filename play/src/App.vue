@@ -123,11 +123,12 @@ const handleChange = (val: boolean) => {
     v-model:selected-keys="value"
     selectable
     multiple
+    show-checkbox
+    :default-checked-keys="['40', '41']"
   >
     <template #default="{ node }">{{ node.key }} - {{ node.label }}</template>
   </z-tree>
   <!-- selectable意味着可以选择节点 multiple意味着可以多选 selected-keys是选中的节点 -->
-  {{ check }}
   <z-checkbox
     v-model="check"
     :disabled="false"
