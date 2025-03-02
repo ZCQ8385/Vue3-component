@@ -4,8 +4,8 @@ import Icon from '@zi-shui/components/icon'
 import Tree from '@zi-shui/components/tree'
 import '@zi-shui/theme-chalk/src/index.scss'
 import Checkbox from '@zi-shui/components/checkbox'
-
-const plugins = [Icon, Tree, Checkbox]
+import Button from '@zi-shui/components/button'
+const plugins = [Icon, Tree, Checkbox, Button]
 
 const app = createApp(App)
 // 注册插件

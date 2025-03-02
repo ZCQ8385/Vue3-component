@@ -97,7 +97,7 @@ watch(
   () => props.data,
   (data: TreeOption[]) => {
     tree.value = createTree(data)
-    console.log(tree.value)
+    // console.log(tree.value)
   },
   { immediate: true }
 )
@@ -309,8 +309,11 @@ function toggleCheck(node: TreeNode, checked: boolean) {
 }
 
 onMounted(() => {
-  checkedKeysRefs.value.forEach(key => {
-    toggleCheck(flattenTree.value[key as any], true)
+  checkedKeysRefs.value.forEach((key: Key) => {
+    const node = findNode(key)
+    if (node) {
+      toggleCheck(node, true)
+    }
   })
 })
 </script>

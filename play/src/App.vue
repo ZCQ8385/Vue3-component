@@ -102,10 +102,14 @@ const handleLoad = (node: TreeOption) => {
   })
 }
 const value = ref<Key[]>()
-const check = ref(true)
+// const check = ref<boolean | string | number>(true)
 
-const handleChange = (val: boolean) => {
-  console.log(val)
+// const handleChange = (val: boolean) => {
+//   console.log(val)
+// }
+
+const handleClick = (e: MouseEvent) => {
+  console.log('按钮被点击了')
 }
 </script>
 
@@ -129,13 +133,21 @@ const handleChange = (val: boolean) => {
     <template #default="{ node }">{{ node.key }} - {{ node.label }}</template>
   </z-tree>
   <!-- selectable意味着可以选择节点 multiple意味着可以多选 selected-keys是选中的节点 -->
-  <z-checkbox
+  <!-- <z-checkbox
     v-model="check"
     :disabled="false"
     :indeterminate="true"
     label="节点"
     @change="handleChange"
-  ></z-checkbox>
+  ></z-checkbox> -->
+  <z-button size="medium" type="danger" :round="true" @click="handleClick">
+    按钮
+    <template #icon>
+      <z-icon>
+        <AddCircle></AddCircle>
+      </z-icon>
+    </template>
+  </z-button>
 </template>
 
 <style scoped></style>

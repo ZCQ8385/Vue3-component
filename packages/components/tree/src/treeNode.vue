@@ -40,9 +40,9 @@
 <script setup lang="ts">
 import { createNamespace } from '@zi-shui/utils/create'
 import { treeNodeProps, treeNodeEmitts } from './tree'
-import Switcher from './icon/Switcher'
+import Switcher from '@zi-shui/components/internal-icon/icon/Switcher'
 import ZIcon from '@zi-shui/components/icon'
-import ZTreeNodeContent from './icon/tree-node-content'
+import ZTreeNodeContent from '@zi-shui/components/internal-icon/icon/tree-node-content'
 import { computed } from 'vue'
 import ZCheckbox from '@zi-shui/components/checkbox'
 

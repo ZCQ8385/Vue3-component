@@ -1,5 +1,5 @@
 import { computed, defineComponent, inject } from 'vue'
-import { treeNodeContentProps, treeTnjectKey } from '../tree'
+import { treeNodeContentProps, treeTnjectKey } from '../../tree/src/tree'
 
 export default defineComponent({
   name: 'TreeNodeContent',
