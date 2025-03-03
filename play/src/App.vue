@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AddCircle } from '@vicons/ionicons5'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 // import type { Key } from '@zi-shui/components/tree'
 import type { TreeOption } from '@zi-shui/components/tree'
 
@@ -111,6 +111,16 @@ const value = ref<Key[]>()
 const handleClick = (e: MouseEvent) => {
   console.log('按钮被点击了')
 }
+
+const username = ref('hello')
+
+function handleFocus(event: FocusEvent) {
+  console.log((event.target as HTMLInputElement).value)
+}
+
+function handleBlur(event: FocusEvent) {
+  console.log((event.target as HTMLInputElement).value)
+}
 </script>
 
 <template>
@@ -148,6 +158,29 @@ const handleClick = (e: MouseEvent) => {
       </z-icon>
     </template>
   </z-button>
+
+  <z-input
+    v-model="username"
+    @blur="handleBlur"
+    @focus="handleFocus"
+    placeholder="请输入用户名"
+    :show-password="true"
+    :clearable="true"
+  >
+    <template #prepend>aaa</template>
+
+    <template #prefixIcon>
+      <z-icon>
+        <AddCircle></AddCircle>
+      </z-icon>
+    </template>
+
+    <template #suffixIcon>
+      <z-icon> <AddCircle></AddCircle> </z-icon>
+    </template>
+
+    <template #append> aaa </template>
+  </z-input>
 </template>
 
 <style scoped></style>
