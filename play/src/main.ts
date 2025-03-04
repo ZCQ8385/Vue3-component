@@ -6,8 +6,10 @@ import '@zi-shui/theme-chalk/src/index.scss'
 import Checkbox from '@zi-shui/components/checkbox'
 import Button from '@zi-shui/components/button'
 import input from '@zi-shui/components/input'
+import FormItem from '@zi-shui/components/form'
+import { Form } from '@zi-shui/components/form'
 
-const plugins = [Icon, Tree, Checkbox, Button, input]
+const plugins = [Icon, Tree, Checkbox, Button, input, FormItem, Form]
 
 const app = createApp(App)
 // 注册插件

@@ -16,6 +16,7 @@
     "@zi-shui/components": "workspace:^",
     "@zi-shui/theme-chalk": "workspace:^",
     "@zi-shui/utils": "workspace:^",
+    "async-validator": "^4.2.5",
     "typescript": "^5.7.3",
     "vue": "^3.5.13"
   },

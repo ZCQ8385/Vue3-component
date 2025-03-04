@@ -54,6 +54,7 @@
 import { createNamespace } from '@zi-shui/utils/create'
 import {
   computed,
+  inject,
   nextTick,
   onMounted,
   ref,
@@ -62,6 +63,10 @@ import {
   watch
 } from 'vue'
 import { inputProps, inputEmits } from './input'
+import { FormItemContextKey } from '@zi-shui/components/form/src/form-item'
+
+//跨组件通信
+const formItemContext = inject(FormItemContextKey)
 
 defineOptions({
   name: 'z-input',
@@ -81,6 +86,7 @@ const passwordVisible = ref(false)
 watch(
   () => props.modelValue,
   () => {
+    formItemContext?.validate('change').catch(() => {})
     setNativeInputValue()
   }
 )
@@ -137,6 +143,7 @@ function handleFocus(event: FocusEvent) {
 }
 
 function handleBlur(event: FocusEvent) {
+  formItemContext?.validate('blur').catch(() => {})
   emit('blur', event)
 }
 </script>

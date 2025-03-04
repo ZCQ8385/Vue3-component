@@ -3,6 +3,7 @@ import { AddCircle } from '@vicons/ionicons5'
 import { reactive, ref } from 'vue'
 // import type { Key } from '@zi-shui/components/tree'
 import type { TreeOption } from '@zi-shui/components/tree'
+import type { FormInstance } from '@zi-shui/components/form'
 
 type Key = string | number
 
@@ -121,6 +122,20 @@ function handleFocus(event: FocusEvent) {
 function handleBlur(event: FocusEvent) {
   console.log((event.target as HTMLInputElement).value)
 }
+
+const state = reactive({
+  username: '',
+  password: ''
+})
+
+const formRef = ref<FormInstance>()
+
+const validateForm = () => {
+  const form = formRef.value
+  form?.validate((valid, errors) => {
+    console.log(valid, errors)
+  })
+}
 </script>
 
 <template>
@@ -142,14 +157,7 @@ function handleBlur(event: FocusEvent) {
   >
     <template #default="{ node }">{{ node.key }} - {{ node.label }}</template>
   </z-tree>
-  <!-- selectable意味着可以选择节点 multiple意味着可以多选 selected-keys是选中的节点 -->
-  <!-- <z-checkbox
-    v-model="check"
-    :disabled="false"
-    :indeterminate="true"
-    label="节点"
-    @change="handleChange"
-  ></z-checkbox> -->
+
   <z-button size="medium" type="danger" :round="true" @click="handleClick">
     按钮
     <template #icon>
@@ -181,6 +189,41 @@ function handleBlur(event: FocusEvent) {
 
     <template #append> aaa </template>
   </z-input>
+
+  <z-form
+    ref="formRef"
+    :model="state"
+    :rules="{
+      username: {
+        min: 6,
+        max: 10,
+        message: '用户名长度在6-10之间',
+        trigger: ['blur', 'change']
+      }
+    }"
+  >
+    <z-form-item
+      prop="username"
+      :rules="[{ required: true, message: '请输入用户名', trigger: 'blur' }]"
+    >
+      <z-input placeholder="请输入用户名" v-model="state.username"></z-input>
+      <template #label>用户名</template>
+    </z-form-item>
+
+    <z-form-item
+      prop="password"
+      :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
+    >
+      <z-input
+        placeholder="请输入密码"
+        v-model="state.password"
+        type="password"
+      ></z-input>
+      <template #label>用户名</template>
+    </z-form-item>
+
+    <z-button a="1" b="2" @click="validateForm">按钮</z-button>
+  </z-form>
 </template>
 
 <style scoped></style>
