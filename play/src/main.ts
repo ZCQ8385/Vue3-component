@@ -8,8 +8,9 @@ import Button from '@zi-shui/components/button'
 import input from '@zi-shui/components/input'
 import FormItem from '@zi-shui/components/form'
 import { Form } from '@zi-shui/components/form'
+import ZUpload from '@zi-shui/components/upload'
 
-const plugins = [Icon, Tree, Checkbox, Button, input, FormItem, Form]
+const plugins = [Icon, Tree, Checkbox, Button, input, FormItem, Form, ZUpload]
 
 const app = createApp(App)
 // 注册插件

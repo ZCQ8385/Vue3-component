@@ -4,6 +4,7 @@ import { reactive, ref } from 'vue'
 // import type { Key } from '@zi-shui/components/tree'
 import type { TreeOption } from '@zi-shui/components/tree'
 import type { FormInstance } from '@zi-shui/components/form'
+// import type { UploadRawFile } from '@zi-shui/components/upload/src/upload'
 
 type Key = string | number
 
@@ -109,7 +110,7 @@ const value = ref<Key[]>()
 //   console.log(val)
 // }
 
-const handleClick = (e: MouseEvent) => {
+const handleClick = () => {
   console.log('按钮被点击了')
 }
 
@@ -135,6 +136,10 @@ const validateForm = () => {
   form?.validate((valid, errors) => {
     console.log(valid, errors)
   })
+}
+
+const handleBeforeUpload = () => {
+  return true
 }
 </script>
 
@@ -224,6 +229,10 @@ const validateForm = () => {
 
     <z-button a="1" b="2" @click="validateForm">按钮</z-button>
   </z-form>
+
+  <z-upload :drag="true" :before-upload="handleBeforeUpload">
+    <z-button>点我上传</z-button>
+  </z-upload>
 </template>
 
 <style scoped></style>
