@@ -1,0 +1,18 @@
+{
+  "name": "@zi-shui/core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "run-s build-only move-style",
+    "move-style": "move-file dist/es/index.css dist/index.css",
+    "build-only": "run-p build-es build-umd",
+    "build-umd": "vite build --config  vite.umd.config.ts",
+    "build-es": "vite build --config  vite.es.config.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.4.1"
+}
