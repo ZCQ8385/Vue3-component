@@ -1,0 +1,53 @@
+{
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "pnpm -C play dev",
+    "docs:dev": "pnpm -C docs dev",
+    "build": "pnpm -C packages/core build",
+    "test": "echo 'todp'",
+    "docs:build": "pnpm -C docs build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.4.1",
+  "dependencies": {
+    "@zi-shui/components": "workspace:^",
+    "@zi-shui/theme-chalk": "workspace:^",
+    "@zi-shui/utils": "workspace:^",
+    "async-validator": "^4.2.5",
+    "typescript": "^5.7.3",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@highlightjs/vue-plugin": "^2.1.0",
+    "@types/lodash-es": "^4.17.12",
+    "@typescript-eslint/eslint-plugin": "^8.24.1",
+    "@typescript-eslint/parser": "^8.24.1",
+    "@vitejs/plugin-vue-jsx": "^4.1.1",
+    "@vitepress-code-preview/container": "^1.0.8",
+    "@vitepress-code-preview/plugin": "^1.0.6",
+    "@vue/eslint-config-typescript": "^14.4.0",
+    "eslint": "^9.21.0",
+    "eslint-plugin-vue": "^9.32.0",
+    "highlight.js": "^11.11.1",
+    "lodash-es": "^4.17.21",
+    "move-file-cli": "^3.0.0",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.85.0",
+    "ts-node": "^10.9.2",
+    "unplugin-vue-define-options": "^1.5.5",
+    "vite-plugin-dts": "^3.9.1"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "esbuild"
+    ],
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

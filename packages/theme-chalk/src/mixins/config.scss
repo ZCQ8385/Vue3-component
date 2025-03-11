@@ -1,0 +1,4 @@
+$namespace: 'z'; // 命名空间，用于所有类名前缀
+$element-separator: '__'; // 元素分隔符，用于块和元素之间
+$modifier-separator: '--'; // 修饰符分隔符，用于块/元素和修饰符之间
+$state-prefix: 'is-'; // 状态前缀，用于状态类名
