@@ -1,16 +1,12 @@
-module.exports = {
+import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vitepress'
+import { demoPreviewPlugin } from '@vitepress-code-preview/plugin'
+
+export default defineConfig({
   title: 'Z-UI',
   description: 'z-shui UI',
+  base: '/Vue3-component/',
   themeConfig: {
-    lastUpdated: '最后更新时间',
-    docsDir: 'docs',
-    editLinks: true,
-    editLinkText: '编辑此网站',
-    repo: 'https://github.com/your-repo',
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2022-present Z-UI'
-    },
     nav: [
       { text: '指南', link: '/guide/installation', activeMatch: '/guide/' },
       { text: '组件', link: '/component/icon', activeMatch: '/component/' }
@@ -32,5 +28,11 @@ module.exports = {
         }
       ]
     }
+  },
+  markdown: {
+    config(md) {
+      const docRoot = fileURLToPath(new URL('../', import.meta.url))
+      md.use(demoPreviewPlugin, { docRoot })
+    }
   }
-}
+})
