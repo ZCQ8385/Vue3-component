@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "pnpm -C play dev",
-    "doc:dev": "pnpm -C docs dev",
+    "docs:dev": "pnpm -C docs dev",
     "build": "pnpm -C packages/core build",
-    "test": "echo 'todp'"
+    "test": "echo 'todp'",
+    "docs:build": "pnpm -C docs build"
   },
   "keywords": [],
   "author": "",
